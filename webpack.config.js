@@ -6,17 +6,15 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin'); /
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); // js压缩插件
 
 module.exports = {
-    // entry: {
-    //     mian1: "./app/main.js",       //多个js分别打包
-    //     mian2: './app/1.js',
-    //     mian3: './app/2.js'
-    // },
     entry: {
-        mian:[ './app/main.js','./app/1.js','./app/2.js'],  // 多个js 打包成一个文件
+        blued: "./web/js/1.js",       //多个js分别打包
     },
+    // entry: {
+    //     // mian:[ './app/main.js','./app/1.js','./app/2.js'],  // 多个js 打包成一个文件
+    // },
     output: {
         path: __dirname,
-        filename: "./script/[name].js"  // 打包输出的文件
+        filename: "./[name]/[name].js"  // 打包输出的文件
     },
     mode: "production",   // 工作模式
     module:{
@@ -28,8 +26,8 @@ module.exports = {
               test: /\.css$/,
               use: ExtractTextPlugin.extract({
                 fallback: "style-loader",
-                use: "css-loader"
-              })
+                use: "css-loader!postcss-loader",   // postcss-loader 配合 autoprefixer css 前面加前缀
+              }),
             }
           ]
 
@@ -39,13 +37,13 @@ module.exports = {
         new webpack.BannerPlugin('菜鸟教程 webpack 实例'), // 输出文件前面加注释 插件
         new HtmlWebpackPlugin({
             // chunks:['app/dist/js/index'],
-            filename:'./script/index.html',  // 编译完的html存放路径
-            template:'./app/index.html',   //  要编译的HTML模板路径
+            filename:'./blued/index.html',  // 编译完的html存放路径
+            template:'./web/index.html',   //  要编译的HTML模板路径
             minify: {
                 collapseWhitespace: true,//html压缩  删除html空格、换行
             },
         }),
-        new ExtractTextPlugin("./script/[name].css"),//css打包后的文件路径
+        new ExtractTextPlugin("./[name]/[name].css"),//css打包后的文件路径
     ],
     optimization: {
         minimizer: [
