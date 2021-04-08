@@ -1,0 +1,10 @@
+{   // es6转es5  操作    待验证
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage"    //这个的含义是引入的@babel/polyfill按需加载，只使用项目中需要转为es5的部分，减少项目大小
+            }
+        ]
+    ]
+}
