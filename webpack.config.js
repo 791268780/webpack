@@ -7,9 +7,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin'); // js压缩插件
 const path = require('path');
 // const CleanWebpackPlugin  = require('clean-webpack-plugin');
 
-let file_name = ''
+let mode = 'production'  // 开发模式   development  :线上模式
 
 module.exports = {
+	mode: mode ,   
     entry: {
         index: "./web/js/index.js",       //多个js分别打包
         "2": "./web/js/2.js",       //多个js分别打包
@@ -20,11 +21,11 @@ module.exports = {
     // },
     output: {
         path:path.resolve(__dirname,'build'),
+		publicPath: mode === 'production' ? "./" : '/',
         filename: "[name]/[name].js"  ,// 打包输出的文件
 		hotUpdateChunkFilename: 'hot/hot-update.js', // 阻止热更新时生成json文件
 		hotUpdateMainFilename: 'hot/hot-update.json'
     },
-    mode: "production",   // 工作模式
     module:{
         // rules: [
         //     { test: /\.css$/, use: ['style-loader','css-loader'] } // css 和js 打包在一起
@@ -83,7 +84,7 @@ module.exports = {
 				options: {
 					limit: 1000, // 小于  转base64
 					esModule:false,  // 解决  file-loader  升级后  不兼容  html-withimg-loader的问题
-					name: '/image/[name].[hash:10].[ext]'
+					name: 'image/[name].[hash:10].[ext]'
 				}
 			},
 			{  // 处理html中的img路径
